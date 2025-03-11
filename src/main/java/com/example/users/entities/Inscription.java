@@ -19,6 +19,8 @@ public class Inscription {
     Date dateOfBirth;
     String courseId;
     StatusInscri status;
+    String bachelorDegree;
+    String notesDocument;
 
     @Override
     public String toString() {

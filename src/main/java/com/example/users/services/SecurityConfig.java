@@ -24,7 +24,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity (not recommended for production)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/auth/login","/auth/reset-password").permitAll() // Allow access to the auth endpoints
+                        .requestMatchers("report/add", "report/all", "report/delete/{id}", "report/get/{id}").permitAll() // Allow unauthenticated access to these endpoints
+                        .requestMatchers("/auth/login","/auth/forgot-password","/auth/reset-password","/auth/user", "/auth/validateToken").permitAll() // Allow access to the auth endpoints
                         .requestMatchers("/users/all", "/users/add", "/users/findById", "/auth/login","/auth/reset-password", "users/findByRole", "users/update","users/delete").permitAll() // Allow unauthenticated access to these endpoints
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // Permit Swagger endpoints
                         .requestMatchers("/inscription/all", "/inscription/add", "/inscription/pending","/inscription/accepted", "/inscription/rejected","/inscription/accept/{id}", "/inscription/reject/{id}").permitAll() // Allow unauthenticated access to these endpoints

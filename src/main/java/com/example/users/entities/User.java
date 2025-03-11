@@ -3,6 +3,7 @@ package com.example.users.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,9 @@ public class User {
     Date dateOfBirth;
     Boolean isActive;
     Date CreatedAt;
+    String profilePicture;
+    String bachelordegree;
+    String notesDocument;
 
     @Override
     public String toString() {
