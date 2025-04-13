@@ -19,7 +19,7 @@ import java.util.UUID;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthController {
     @Autowired
     PasswordTokenRepo passwordTokenRepo;
@@ -40,7 +40,6 @@ public class AuthController {
         }
         return "invalid credentials";
     }
-
     @PostMapping("/forgot-password")
     public CustomResponse<?> forgotPassword(@RequestParam String email) {
         User user = usersServices.findByEmail(email);

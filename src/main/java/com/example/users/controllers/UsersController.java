@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UsersController {
     private final UsersServices usersServices;
     @GetMapping("/all")

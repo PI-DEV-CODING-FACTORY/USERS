@@ -5,15 +5,19 @@ import com.example.users.entities.Role;
 import com.example.users.entities.StatusInscri;
 import com.example.users.entities.User;
 import com.example.users.repositories.InscriptionRepo;
+import jakarta.mail.Multipart;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,7 +33,13 @@ public class InscriptionServices {
     public List<Inscription> getAllInscriptions(){
         return inscriptionRepo.findAll();
     }
-    public void add(Inscription inscription){
+    public void add(Inscription inscription, MultipartFile bachelorDegree, MultipartFile notesDocument) throws IOException {
+        if (bachelorDegree != null) {
+            inscription.setDiplomaDocument(bachelorDegree.getBytes());
+        }
+        if (notesDocument != null) {
+            inscription.setNotesDocument(notesDocument.getBytes());
+        }
         inscriptionRepo.save(inscription);
     }
     // get the pending inscriptions
@@ -95,5 +105,9 @@ public class InscriptionServices {
 
         mailSender.send(message);
         System.out.println("Email sent successfully!");
+    }
+
+    public Optional<Inscription> getInscriptionById(String id) {
+        return inscriptionRepo.findById(id);
     }
 }
