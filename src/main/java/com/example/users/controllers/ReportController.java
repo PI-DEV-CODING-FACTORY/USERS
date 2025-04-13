@@ -2,6 +2,7 @@ package com.example.users.controllers;
 
 import com.example.users.entities.Report;
 import com.example.users.entities.ReportStatus;
+import com.example.users.entities.Role;
 import com.example.users.services.JwtUtil;
 import com.example.users.services.ReportService;
 import io.jsonwebtoken.Claims;
@@ -32,11 +33,15 @@ public class ReportController {
         System.out.println("JWT Token: " + token);
         // Parse the JWT token to extract claims
         String email = jwtUtil.extractEmail(token);
+        String role = jwtUtil.extractRole(token);
 
-        System.out.println("Email from JWT: " + email);
+//        System.out.println("Email from JWT: " + email);
+//        System.out.println("Role from JWT: " + role);
         report.setUserId(email);
+        report.setUserRole(role);
         report.setStatus(ReportStatus.Pending);
         report.setDateTime(LocalDateTime.now());
+        System.out.println(report.getUserRole());
         reportService.addReport(report);
     }
     //get all reports endpoint

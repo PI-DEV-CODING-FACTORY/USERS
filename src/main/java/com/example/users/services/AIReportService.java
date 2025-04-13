@@ -1,14 +1,11 @@
 package com.example.users.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class AIService {
+public class AIReportService {
 //    private final OkHttpClient client = new OkHttpClient();
 //    private final ObjectMapper mapper = new ObjectMapper();
 //

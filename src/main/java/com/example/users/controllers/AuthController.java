@@ -36,7 +36,7 @@ public class AuthController {
     public String login(@RequestParam String email, @RequestParam String password){
         User user = usersServices.findByEmail(email);
         if(user != null && passwordEncoder.matches(password, user.getPassword())){
-            return jwtUtil.generateToken(user.getEmail());
+            return jwtUtil.generateToken(user.getEmail(),user.getRole());
         }
         return "invalid credentials";
     }
