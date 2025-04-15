@@ -25,7 +25,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity (not recommended for production)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("report/add", "report/all", "report/delete/{id}", "report/get/{id}","report/analyze","report/pending").permitAll() // Allow unauthenticated access to these endpoints
+                        .requestMatchers("report/add", "report/all", "report/delete/{id}", "report/get/{id}","report/analyze/{id}","report/pending").permitAll() // Allow unauthenticated access to these endpoints
                         .requestMatchers("/auth/login","/auth/forgot-password","/auth/reset-password","/auth/user", "/auth/validateToken").permitAll() // Allow access to the auth endpoints
                         .requestMatchers("/users/all", "/users/add", "/users/findById", "/auth/login","/auth/reset-password", "users/findByRole", "users/update","users/delete").permitAll() // Allow unauthenticated access to these endpoints
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // Permit Swagger endpoints
@@ -46,12 +46,5 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
-    }
-    @Configuration
-    public class RestTemplateConfig {
-        @Bean
-        public RestTemplate restTemplate() {
-            return new RestTemplate();
-        }
     }
 }

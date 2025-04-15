@@ -1,10 +1,7 @@
 package com.example.users.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,7 +25,7 @@ public class Report {
     ReportStatus status;
      @JsonIgnore
      LocalDateTime dateTime;
-
+    @Column(length = 10000)
      String reportAnalysis;
 
     @Override

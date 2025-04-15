@@ -11,6 +11,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +27,9 @@ public class ReportController {
     private final ReportService reportService;
     @Autowired
     private final JwtUtil jwtUtil;
-//    @Autowired
-//    private final AIReportService aiReportService;
-    //create a report endpoint
+    @Autowired
+    private final AIReportService aiReportService;
+
     @PostMapping("/add")
     public void addReport(@RequestBody Report report ,@RequestHeader("Authorization") String authorizationHeader){
         // Extract the JWT token from the Authorization header
@@ -64,14 +65,31 @@ public class ReportController {
     public Report getReportById(@PathVariable Long id){
         return reportService.getReportById(id);
     }
-//    @PostMapping("/analyze")
-//    public ResponseEntity<ReportAnalysis> analyzeReport(@RequestBody AnalyzeRequest request) {
-//        ReportAnalysis analysis = aiReportService.analyzeReport(request.getContent());
-//        return ResponseEntity.ok(analysis);
-//    }
 
     @GetMapping("/pending")
     public List<Report> getPendingReports() {
         return reportService.getPendingReports();
+    }
+
+    @PostMapping("/analyze/{id}")
+    public ResponseEntity<Report> analyzeReport(@PathVariable Long id) {
+        try {
+            Report analyzedReport = aiReportService.analyzeReport(id);
+            return ResponseEntity.ok(analyzedReport);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+    @PostMapping("/analyze-all")
+    public ResponseEntity<List<Report>> analyzeAllPendingReports() {
+        try {
+            List<Report> analyzedReports = aiReportService.analyzeAllPendingReports();
+            return ResponseEntity.ok(analyzedReports);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
     }
 }
