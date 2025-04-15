@@ -29,6 +29,8 @@ public class Report {
      @JsonIgnore
      LocalDateTime dateTime;
 
+     String reportAnalysis;
+
     @Override
     public String toString() {
         return "Report{" +
@@ -39,6 +41,7 @@ public class Report {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", dateTime=" + dateTime +
+                ", reportAnalysis='" + reportAnalysis + '\'' +
                 '}';
     }
 }

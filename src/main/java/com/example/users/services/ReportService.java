@@ -26,16 +26,15 @@ public class ReportService {
     public void deleteReport(Long id) {
         this.reportRepo.deleteById(id);
     }
-    public Report getReportById(Long id){
-        return this.reportRepo.findById(id).orElse(null);
+    public Report getReportById(Long id) {
+        Report report = this.reportRepo.findById(id).orElse(null);
+        if (report != null) {
+            report.setStatus(ReportStatus.Consulted); // Change the status to "Consulted"
+            this.reportRepo.save(report); // Save the updated report
+        }
+        return report;
     }
-//    public Report getReportByUserId(String id){
-//        Report report = this.reportRepo.findByUserId(id);
-//        if (report == null){
-//            return null;
-//        }else{
-//            return report;
-//        }
-//        return this.reportRepo.findByUserId(id);
-//    }
+    public List<Report> getPendingReports() {
+        return this.reportRepo.findByStatus(ReportStatus.Pending);
+    }
 }

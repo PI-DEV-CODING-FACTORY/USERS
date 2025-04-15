@@ -1,5 +1,5 @@
 package com.example.users.entities;
 
 public enum ReportStatus {
-    Pending, Consulted
+    Pending, Consulted,ANALYZING,ANALYZED
 }

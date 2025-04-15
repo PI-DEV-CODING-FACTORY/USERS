@@ -1,14 +1,17 @@
 package com.example.users.controllers;
 
+import com.example.users.DTO.ReportAnalysis;
 import com.example.users.entities.Report;
 import com.example.users.entities.ReportStatus;
 import com.example.users.entities.Role;
+import com.example.users.services.AIReportService;
 import com.example.users.services.JwtUtil;
 import com.example.users.services.ReportService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -23,6 +26,8 @@ public class ReportController {
     private final ReportService reportService;
     @Autowired
     private final JwtUtil jwtUtil;
+//    @Autowired
+//    private final AIReportService aiReportService;
     //create a report endpoint
     @PostMapping("/add")
     public void addReport(@RequestBody Report report ,@RequestHeader("Authorization") String authorizationHeader){
@@ -58,5 +63,15 @@ public class ReportController {
     @GetMapping("/get/{id}")
     public Report getReportById(@PathVariable Long id){
         return reportService.getReportById(id);
+    }
+//    @PostMapping("/analyze")
+//    public ResponseEntity<ReportAnalysis> analyzeReport(@RequestBody AnalyzeRequest request) {
+//        ReportAnalysis analysis = aiReportService.analyzeReport(request.getContent());
+//        return ResponseEntity.ok(analysis);
+//    }
+
+    @GetMapping("/pending")
+    public List<Report> getPendingReports() {
+        return reportService.getPendingReports();
     }
 }

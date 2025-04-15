@@ -90,4 +90,8 @@ public class AuthController {
             return new CustomResponse<>("INVALID", "Token is invalid.");
         }
     }
+    @PostMapping("/verifAuthorization")
+    public CustomResponse<?> verifAuthorization(@RequestParam String token, String role){
+        return null;
+    }
 }

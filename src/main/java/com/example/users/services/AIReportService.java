@@ -1,57 +1,105 @@
-package com.example.users.services;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-@Slf4j
-@Service
-public class AIReportService {
-//    private final OkHttpClient client = new OkHttpClient();
-//    private final ObjectMapper mapper = new ObjectMapper();
+//package com.example.users.services;//package com.example.users.services;
+////
+////import com.example.users.DTO.ReportAnalysis;
+////import com.example.users.entities.Report;
+////import com.example.users.entities.ReportStatus;
+////import com.example.users.repositories.ReportRepo;
+////import lombok.RequiredArgsConstructor;
+////import org.springframework.beans.factory.annotation.Autowired;
+////import org.springframework.beans.factory.annotation.Value;
+////import org.springframework.http.*;
+////import org.springframework.stereotype.Service;
+////import org.springframework.web.client.RestTemplate;
+////
+////import java.util.ArrayList;
+////import java.util.HashMap;
+////import java.util.List;
+////import java.util.Map;
+////
+////@Service
+////@RequiredArgsConstructor
+////public class AIReportService {
+////    @Value("${groq.api.key}")
+////    private String groqApiKey;
+////
+////    @Value("${groq.api.url}")
+////    private String groqApiUrl;
+////
+////    @Autowired
+////    private final ReportService reportService;
+////    @Autowired
+////    private final ReportRepo reportRepo;
+////    @Autowired
+////    private final RestTemplate restTemplate;
+////
+////    List<Report> pendingReports = reportService.getPendingReports();
+////    List<ReportAnalysis> reportAnalyses = new ArrayList<>();
+////    for(Report report : pendingReports){
+////        Map<String, String> requestBody = new HashMap<>();
+////        requestBody.put("content", report.getDescription());
+////        HttpHeaders headrers = new HttpHeaders();
+////        headrers.setContentType(MediaType.APPLICATION_JSON);
+////        headrers.set("Authorization", "Bearer " + groqApiKey);
+////        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headrers);
+////        try {
+////            // Send the request to the Groq API
+////            ResponseEntity<ReportAnalysis> response = restTemplate.postForEntity(groqApiUrl, requestEntity, ReportAnalysis.class);
+////
+////            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+////                ReportAnalysis analysis = response.getBody();
+////                analysisResults.add(analysis);
+////
+////                // Update the report status and save the analysis result
+////                report.setStatus(ReportStatus.Consulted);
+////                report.setAnalysisResult(analysis.getResult()); // Assuming `Report` has a field for analysis result
+////                reportRepo.save(report);
+////            }
+////        } catch (Exception e) {
+////            // Handle API errors (e.g., log the error)
+////            e.printStackTrace();
+////        }
+////    }
+////
+////}
+//
+//import com.example.users.DTO.ReportAnalysis;
+//import com.example.users.entities.Report;
+//import com.example.users.entities.ReportStatus;
+//import com.example.users.repositories.ReportRepo;
+//import com.example.users.services.ReportService;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.http.*;
+//import org.springframework.stereotype.Service;
+//import org.springframework.web.client.RestTemplate;
+//
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.List;
+//import java.util.Map;
+//
+//@Service
+//@RequiredArgsConstructor
+//public class AIReportService {
 //
 //    @Value("${groq.api.key}")
-//    private String apiKey;
+//    private String groqApiKey;
 //
-//    private static final String GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+//    @Value("${groq.api.url}")
+//    private String groqApiUrl;
 //
-//    public String analyzeReport(String reportContent) {
-//        try {
-//            String prompt = String.format(
-//                    "Please analyze this report: %s\n" +
-//                            "Provide a concise summary and assign a priority from 1-4 where:" +
-//                            "4: Critical/Urgent, " +
-//                            "3: High priority, " +
-//                            "2: Medium priority, " +
-//                            "1: Low priority. " +
-//                            "Format response as: Priority: [number]\nSummary: [brief summary]",
-//                    reportContent
-//            );
+//    @Autowired
+//    private final ReportService reportService;
 //
-//            String jsonBody = mapper.writeValueAsString(new ChatRequest(
-//                    "llama-3.3-70b-versatile",
-//                    new Message[]{new Message("user", prompt)}
-//            ));
+//    @Autowired
+//    private final ReportRepo reportRepo;
 //
-//            Request request = new Request.Builder()
-//                    .url(GROQ_API_URL)
-//                    .addHeader("Authorization", "Bearer " + apiKey)
-//                    .addHeader("Content-Type", "application/json")
-//                    .post(RequestBody.create(jsonBody, MediaType.parse("application/json")))
-//                    .build();
+//    @Autowired
+//    private final RestTemplate restTemplate;
 //
-//            try (Response response = client.newCall(request).execute()) {
-//                if (!response.isSuccessful()) {
-//                    throw new RuntimeException("API call failed: " + response.code());
-//                }
-//                JsonNode jsonResponse = mapper.readTree(response.body().string());
-//                return jsonResponse.path("choices").get(0).path("message").path("content").asText();
-//            }
-//        } catch (Exception e) {
-//            log.error("Error analyzing report", e);
-//            return "Priority: 1\nSummary: Error analyzing report content";
-//        }
-//    }
+//        // Fetch all pending reports
+//        List<Report> pendingReports = reportService.getPendingReports();
+//        List<ReportAnalysis> analysisResults = new ArrayList<>();
 //
-//    private record ChatRequest(String model, Message[] messages) {}
-//    private record Message(String role, String content) {}
-}
+//}
