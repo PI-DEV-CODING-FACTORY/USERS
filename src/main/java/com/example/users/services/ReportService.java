@@ -16,6 +16,7 @@ import java.util.List;
 public class ReportService {
     @Autowired
     private final ReportRepo reportRepo;
+
     public void addReport(Report report){
         report.setStatus(ReportStatus.Pending);
         this.reportRepo.save(report);

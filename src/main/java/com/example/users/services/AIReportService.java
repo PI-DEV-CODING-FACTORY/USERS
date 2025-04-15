@@ -28,6 +28,8 @@ public class AIReportService {
     @Value("${groq.api.url}")
     private String groqApiUrl;
 
+//    private final String promp = String.format()
+
     public Report analyzeReport(Long reportId) {
         Report report = reportRepo.findById(reportId).orElseThrow(
                 () -> new RuntimeException("Report not found with id: " + reportId)
@@ -39,27 +41,32 @@ public class AIReportService {
 
         try {
             // Update status to analyzing
-            report.setStatus(ReportStatus.ANALYZING);
+//            report.setStatus(ReportStatus.ANALYZING);
             reportRepo.save(report);
 
             // Prepare the prompt
             String prompt = String.format(
-                    "Analyze the following technical report and provide a structured JSON response containing:\\n\" +\n" +
-                            "        \"1. A concise summary (3-5 sentences)\\n\" +\n" +
-                            "        \"2. Priority assessment (Low/Medium/High/Critical) with justification\\n\" +\n" +
-                            "        \"3. 3-5 suggested solutions or action items\\n\" +\n" +
-                            "        \"4. Potential risks if not addressed\\n\\n\" +\n" +
-                            "        \"Report Title: %s\\n\" +\n" +
-                            "        \"Report Description: %s\\n\\n\" +\n" +
-                            "        \"Respond ONLY with valid JSON in this exact structure:\\n\" +\n" +
+                    "Analysez le rapport technique suivant et fournissez une réponse JSON structurée en français contenant :\\n\" +\n" +
+                            "        \"1. Un résumé concis (3-5 phrases)\\n\" +\n" +
+                            "        \"2. Une priorité numérique (1 à 5, 1 étant le plus urgent)\\n\" +\n" +
+                            "        \"3. 3 solutions proposées\\n\" +\n" +
+                            "        \"4. Les risques potentiels\\n\\n\" +\n" +
+                            "        \"Titre du Rapport: %s\\n\" +\n" +
+                            "        \"Description du Rapport: %s\\n\\n\" +\n" +
+                            "        \"Répondez UNIQUEMENT avec un JSON valide dans ce format exact :\\n\" +\n" +
                             "        \"{\\n\" +\n" +
-                            "        \"  \\\"summary\\\": \\\"string\\\",\\n\" +\n" +
-                            "        \"  \\\"priority\\\": \\\"enum[Low,Medium,High,Critical]\\\",\\n\" +\n" +
-                            "        \"  \\\"priority_reason\\\": \\\"string\\\",\\n\" +\n" +
-                            "        \"  \\\"solutions\\\": [\\\"string1\\\", \\\"string2\\\", \\\"string3\\\"],\\n\" +\n" +
-                            "        \"  \\\"risks\\\": \\\"string\\\"\\n\" +\n" +
+                            "        \"  \\\"summary\\\": \\\"résumé\\\",\\n\" +\n" +
+                            "        \"  \\\"priority\\\": 1-5,\\n\" +\n" +
+                            "        \"  \\\"solutions\\\": [\\\"solution 1\\\", \\\"solution 2\\\", \\\"solution 3\\\"],\\n\" +\n" +
+                            "        \"  \\\"risks\\\": \\\"risques\\\"\\n\" +\n" +
                             "        \"}\\n\\n\" +\n" +
-                            "        \"Keep the entire response parsable as JSON. Do not include any explanatory text outside the JSON structure.",
+                            "        \"Priorités :\\n\" +\n" +
+                            "        \"1 - Critique/Urgent\\n\" +\n" +
+                            "        \"2 - Haut\\n\" +\n" +
+                            "        \"3 - Moyen\\n\" +\n" +
+                            "        \"4 - Bas\\n\" +\n" +
+                            "        \"5 - Très bas/Négligeable\\n\\n\" +\n" +
+                            "        \"N'incluez aucun texte explicatif en dehors de la structure JSON.",
                     report.getTitle(), report.getDescription()
             );
 
@@ -68,7 +75,8 @@ public class AIReportService {
 
             // Update report
             report.setReportAnalysis(analysis);
-            report.setStatus(ReportStatus.ANALYZED);
+            report.setAiAnalyzed(true);
+//            report.setStatus(ReportStatus.ANALYZED);
             return reportRepo.save(report);
         } catch (Exception e) {
             log.error("Error analyzing report {}: {}", reportId, e.getMessage());
@@ -87,7 +95,8 @@ public class AIReportService {
                 log.error("Failed to analyze report {}: {}", report.getId(), e.getMessage());
             }
         });
-        return reportRepo.findByStatus(ReportStatus.ANALYZED);
+        return reportRepo.findByAiAnalyzed(true);
+//        return reportRepo.findByStatus(ReportStatus.ANALYZED);
     }
 
     private String callGroqApi(String prompt) {

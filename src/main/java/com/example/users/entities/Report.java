@@ -25,6 +25,8 @@ public class Report {
     ReportStatus status;
      @JsonIgnore
      LocalDateTime dateTime;
+    @JsonIgnore
+     private boolean aiAnalyzed = false;
     @Column(length = 10000)
      String reportAnalysis;
 
@@ -38,6 +40,7 @@ public class Report {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", dateTime=" + dateTime +
+                ", aiAnalyzed=" + aiAnalyzed +
                 ", reportAnalysis='" + reportAnalysis + '\'' +
                 '}';
     }

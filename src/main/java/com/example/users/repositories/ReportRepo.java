@@ -13,4 +13,5 @@ public interface ReportRepo extends JpaRepository<Report, Long> {
     @Query("SELECT r FROM Report r WHERE r.userId = ?1")
     ReportStatus findByUserId(String id);
     List<Report> findByStatus(ReportStatus status);
+    List<Report> findByAiAnalyzed(boolean aiAnalyzed);
 }
