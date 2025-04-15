@@ -28,7 +28,6 @@ public class AIReportService {
     @Value("${groq.api.url}")
     private String groqApiUrl;
 
-//    private final String promp = String.format()
 
     public Report analyzeReport(Long reportId) {
         Report report = reportRepo.findById(reportId).orElseThrow(
