@@ -24,6 +24,7 @@ public class UsersServices {
     public void add(User user){
         String HashedPassword = passwordEncoder.encode( user.getPassword());
         user.setPassword(HashedPassword);
+        user.setCreatedAt(new java.util.Date());
         userRepo.save(user);
     }
     public List<User> getAllUsers(){

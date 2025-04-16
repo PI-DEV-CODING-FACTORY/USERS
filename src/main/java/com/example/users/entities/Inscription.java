@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Blob;
-import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -14,29 +12,23 @@ import java.util.Date;
 @Setter
 public class Inscription {
     @Id
-            @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String firstName;
     String lastName;
     String personalEmail;
     String phoneNumber;
     Date dateOfBirth;
-    String situation;
-    String HealthSituation;
+    String maritalStatus;
+    String HealthStatus;
     String address;
     String city;
     Long zipCode;
-    String lastDiploma;
-    @JsonIgnore
+
     @Lob
-    byte[] diplomaDocument;
-    @JsonIgnore
-    String diplomaDocumentType;
-    @JsonIgnore
-    @Lob
-    byte[] notesDocument;
-    @JsonIgnore
-    String notesDocumentType;
+    private byte[] diplomaDocument;
+    private String diplomaDocumentType;
+    private String diplomaDocumentName;
 
     String courseId;
     @Enumerated(EnumType.STRING)
@@ -51,16 +43,11 @@ public class Inscription {
                 ", personalEmail='" + personalEmail + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
-                ", situation='" + situation + '\'' +
-                ", HealthSituation='" + HealthSituation + '\'' +
+                ", situation='" + maritalStatus + '\'' +
+                ", HealthSituation='" + HealthStatus + '\'' +
                 ", address='" + address + '\'' +
                 ", city='" + city + '\'' +
                 ", zipCode=" + zipCode +
-                ", lastDiploma='" + lastDiploma + '\'' +
-                ", diplomaDocument=" + Arrays.toString(diplomaDocument) +
-                ", diplomaDocumentType='" + diplomaDocumentType + '\'' +
-                ", notesDocument=" + Arrays.toString(notesDocument) +
-                ", notesDocumentType='" + notesDocumentType + '\'' +
                 ", courseId='" + courseId + '\'' +
                 ", status=" + status +
                 '}';

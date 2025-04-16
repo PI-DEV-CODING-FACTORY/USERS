@@ -1,13 +1,11 @@
 package com.example.users.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.Date;
 
 @Getter
@@ -20,13 +18,17 @@ public class User {
     String password;
     String firstname;
     String lastname;
+    @Enumerated(EnumType.STRING)
     Role role;
     Date dateOfBirth;
-    Boolean isActive;
+    @JsonIgnore
+    Boolean isActive = false;
+    @JsonIgnore
     Date CreatedAt;
     String profilePicture;
-    String bachelordegree;
-    String notesDocument;
+    @Lob
+    byte[] degree;
+
 
     @Override
     public String toString() {
@@ -39,6 +41,8 @@ public class User {
                 ", dateOfBirth=" + dateOfBirth +
                 ", isActive=" + isActive +
                 ", CreatedAt=" + CreatedAt +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", degree=" + Arrays.toString(degree) +
                 '}';
     }
 }

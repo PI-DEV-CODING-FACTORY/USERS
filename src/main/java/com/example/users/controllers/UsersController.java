@@ -3,6 +3,7 @@ package com.example.users.controllers;
 import com.example.users.entities.User;
 import com.example.users.services.UsersServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +19,16 @@ public class UsersController {
         List<User> users = usersServices.getAllUsers();
         return users;
     }
-    @PostMapping("/add")
-    public void add(@RequestBody User user){
-        usersServices.add(user);
-    }
+//    @PostMapping("/add")
+//    public void add(@RequestBody User user){
+//        usersServices.add(user);
+//    }
 
+    @PostMapping("/add")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        usersServices.add(user);
+        return ResponseEntity.ok(user);
+    }
     @GetMapping("/findById")
     public User findByEmail(@RequestParam String email){
         return usersServices.findByEmail(email);
