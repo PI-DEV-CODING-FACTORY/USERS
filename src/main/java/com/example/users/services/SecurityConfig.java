@@ -25,6 +25,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity (not recommended for production)
                 .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/entreprise/add").permitAll()
                         .requestMatchers("report/add", "report/all", "report/delete/{id}", "report/get/{id}","report/analyze/{id}","report/pending","report/analyze-all").permitAll() // Allow unauthenticated access to these endpoints
                         .requestMatchers("/auth/login","/auth/forgot-password","/auth/reset-password","/auth/user", "/auth/validateToken").permitAll() // Allow access to the auth endpoints
                         .requestMatchers("/users/all", "/users/add", "/users/findById", "/auth/login","/auth/reset-password", "users/findByRole", "users/update","users/delete").permitAll() // Allow unauthenticated access to these endpoints
