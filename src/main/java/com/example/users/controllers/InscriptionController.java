@@ -46,7 +46,7 @@ public class InscriptionController {
 
     @GetMapping("/all")
     public List<Inscription> getAllInscriptions() {
-        return inscriptionServices.getAllInscriptions();
+        return inscriptionServices.getAllInscriptionsWithoutDocuments();
     }
 
     @GetMapping("/pending")
@@ -62,5 +62,14 @@ public class InscriptionController {
     @GetMapping("/rejected")
     public List<Inscription> getRejectedInscriptions() {
         return inscriptionServices.getRejectedInscriptions();
+    }
+
+    @GetMapping("/{id}/document")
+    public ResponseEntity<byte[]> getDocumentById(@PathVariable String id) {
+        byte[] document = inscriptionServices.getDocumentById(id);
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/pdf")
+                .header("Content-Disposition", "attachment; filename=document.pdf")
+                .body(document);
     }
 }

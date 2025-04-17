@@ -33,6 +33,19 @@ public class InscriptionServices {
     }
 
     @Transactional
+    public List<Inscription> getAllInscriptionsWithoutDocuments() {
+        List<Inscription> inscriptions = inscriptionRepo.findAll();
+        inscriptions.forEach(inscription -> inscription.setDiplomaDocument(null));
+        return inscriptions;
+    }
+    @Transactional
+    public byte[] getDocumentById(String id) {
+        Inscription inscription = inscriptionRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Inscription not found with id: " + id));
+        return inscription.getDiplomaDocument();
+    }
+
+    @Transactional
     public List<Inscription> getPendingInscriptions() {
         return inscriptionRepo.findByStatus(StatusInscri.Pending);
     }
