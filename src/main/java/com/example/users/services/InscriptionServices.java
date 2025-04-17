@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +25,7 @@ public class InscriptionServices {
         if (inscription.getStatus() == null) {
             inscription.setStatus(StatusInscri.Pending);
         }
+        inscription.setCreatedAt(new Date());
         return inscriptionRepo.save(inscription);
     }
 

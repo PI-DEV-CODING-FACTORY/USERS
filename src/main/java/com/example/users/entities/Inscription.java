@@ -1,6 +1,5 @@
 package com.example.users.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +33,9 @@ public class Inscription {
     @Enumerated(EnumType.STRING)
     StatusInscri status;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
     @Override
     public String toString() {
         return "Inscription{" +
@@ -50,6 +52,7 @@ public class Inscription {
                 ", zipCode=" + zipCode +
                 ", courseId='" + courseId + '\'' +
                 ", status=" + status +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
