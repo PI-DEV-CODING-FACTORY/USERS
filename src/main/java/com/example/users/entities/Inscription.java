@@ -1,9 +1,11 @@
 package com.example.users.entities;
 
+import com.example.users.enums.StatusInscri;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -17,7 +19,7 @@ public class Inscription {
     String lastName;
     String personalEmail;
     String phoneNumber;
-    Date dateOfBirth;
+    LocalDate dateOfBirth;
     String maritalStatus;
     String HealthStatus;
     String address;

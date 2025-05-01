@@ -1,36 +1,31 @@
 package com.example.users.entities;
 
+import com.example.users.enums.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Teacher {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    @OneToOne
-    @JoinColumn(name = "user_email", nullable = false)
-    private User user;
-
-    private String qualification;
+@Table(name = "teachers")
+public class Teacher extends User {
+    private String numTeacher;
+    private String subject;
     private String department;
-    private Date dateOfJoining;
-    private Date InterviewDate;
+    private Integer experienceYears;
+    private Date dateOfHire;
+    private boolean responsibleDepartement = false;
 
     @Override
-    public String toString() {
-        return "Teacher{" +
-                "id=" + id +
-                ", user=" + user +
-                ", qualification='" + qualification + '\'' +
-                ", department='" + department + '\'' +
-                ", dateOfJoining=" + dateOfJoining +
-                ", InterviewDate=" + InterviewDate +
-                '}';
+    protected void onCreate() {
+        super.onCreate();
+        setRole(Role.TEACHER);
     }
 }

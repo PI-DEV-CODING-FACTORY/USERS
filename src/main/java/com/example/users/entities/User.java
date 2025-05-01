@@ -1,26 +1,33 @@
 package com.example.users.entities;
 
+import com.example.users.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "app_user")
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
     String email;
     String password;
     String firstname;
     String lastname;
+    @JsonIgnore
     @Enumerated(EnumType.STRING)
     Role role;
-    Date dateOfBirth;
+    LocalDate dateOfBirth;
     @JsonIgnore
     Boolean isActive = false;
     @JsonIgnore
@@ -29,6 +36,20 @@ public class User {
     @Lob
     byte[] degree;
 
+    @PrePersist
+    protected void onCreate() {
+        if (CreatedAt == null) {
+            CreatedAt = new Date();
+        }
+        if (isActive == null) {
+            isActive = false;
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        CreatedAt = new Date();
+    }
 
     @Override
     public String toString() {
@@ -42,7 +63,6 @@ public class User {
                 ", isActive=" + isActive +
                 ", CreatedAt=" + CreatedAt +
                 ", profilePicture='" + profilePicture + '\'' +
-                ", degree=" + Arrays.toString(degree) +
                 '}';
     }
 }

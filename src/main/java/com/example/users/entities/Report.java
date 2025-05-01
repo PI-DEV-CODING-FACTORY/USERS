@@ -1,5 +1,6 @@
 package com.example.users.entities;
 
+import com.example.users.enums.ReportStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;

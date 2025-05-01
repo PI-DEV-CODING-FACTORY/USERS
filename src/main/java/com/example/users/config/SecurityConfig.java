@@ -1,4 +1,4 @@
-package com.example.users.services;
+package com.example.users.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,12 +25,15 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity (not recommended for production)
                 .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/admins/**").permitAll() // Allow unauthenticated access to these endpoints
+                        .requestMatchers("/students/**").permitAll()
+                        .requestMatchers("/teachers/**").permitAll()
                         .requestMatchers("/entreprise/add").permitAll()
                         .requestMatchers("report/add", "report/all", "report/delete/{id}", "report/get/{id}","report/analyze/{id}","report/pending","report/analyze-all").permitAll() // Allow unauthenticated access to these endpoints
                         .requestMatchers("/auth/login","/auth/forgot-password","/auth/reset-password","/auth/user", "/auth/validateToken").permitAll() // Allow access to the auth endpoints
                         .requestMatchers("/users/all", "/users/add", "/users/findById", "/auth/login","/auth/reset-password", "users/findByRole", "users/update","users/delete").permitAll() // Allow unauthenticated access to these endpoints
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // Permit Swagger endpoints
-                        .requestMatchers("/inscription/all", "/inscription/add", "/inscription/pending","/inscription/accepted", "/inscription/rejected","/inscription/accept/{id}", "/inscription/reject/{id}","/inscription/{id}/bachelor-degree").permitAll() // Allow unauthenticated access to these endpoints
+                        .requestMatchers("/inscription/all", "/inscription/add", "/inscription/pending","/inscription/accepted", "/inscription/rejected","/inscription/accept/{id}", "/inscription/reject/{id}","/inscription/{id}/document","/inscription/{id}/approve").permitAll() // Allow unauthenticated access to these endpoints
                         .anyRequest().authenticated() // All other requests require authentication
                 )
                 .formLogin(form -> form.disable()) // Disable the default login form

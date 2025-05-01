@@ -1,4 +1,4 @@
-package com.example.users.entities;
+package com.example.users.enums;
 
 public enum Role {
     ADMIN, STUDENT, TEACHER

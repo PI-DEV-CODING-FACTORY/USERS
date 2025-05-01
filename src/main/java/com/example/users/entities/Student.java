@@ -1,28 +1,28 @@
 package com.example.users.entities;
 
+import com.example.users.enums.Role;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Date;
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    @OneToOne
-    @JoinColumn(name = "user_email", nullable = false)
-    private User user;
-    private String courseId;
+public class Student extends User {
+    private String promotion;
+    private String filiere;
+    private Integer annee;
+    private String numeroEtudiant;
+    private Double moyenneGenerale;
+    private Boolean boursier = false;
 
     @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", user=" + user +
-                ", courseId='" + courseId + '\'' +
-                '}';
+    protected void onCreate() {
+        super.onCreate();
+        setRole(Role.STUDENT);
     }
 }

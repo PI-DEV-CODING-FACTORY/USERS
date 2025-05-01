@@ -1,25 +1,32 @@
 package com.example.users.entities;
 
+import com.example.users.enums.Role;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.Date;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Admin {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    @OneToOne
-    @JoinColumn(name = "user_email", nullable = false)
-    private User user;
+@Table(name = "admins")
+public class Admin extends User{
+    private String numAdmin;
+    private String service;
+    private String department;
+    private Integer experienceYears;
+    @Temporal(TemporalType.DATE)
+    private Date dateOfHire;
+    private boolean responsibleDepartement = false;
+    private boolean fullAccess = false;
 
     @Override
-    public String toString() {
-        return "Admin{" +
-                "id=" + id +
-                ", user=" + user +
-                '}';
+    protected void onCreate() {
+        super.onCreate();
+        setRole(Role.ADMIN);
     }
 }

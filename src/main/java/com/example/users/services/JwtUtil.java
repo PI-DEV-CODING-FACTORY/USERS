@@ -1,6 +1,6 @@
 package com.example.users.services;
 
-import com.example.users.entities.Role;
+import com.example.users.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

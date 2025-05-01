@@ -1,7 +1,7 @@
 package com.example.users.controllers;
 
 import com.example.users.entities.Report;
-import com.example.users.entities.ReportStatus;
+import com.example.users.enums.ReportStatus;
 import com.example.users.services.AIReportService;
 import com.example.users.services.JwtUtil;
 import com.example.users.services.ReportService;

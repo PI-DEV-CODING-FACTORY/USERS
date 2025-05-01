@@ -1,14 +1,14 @@
 package com.example.users.controllers;
 
+import com.example.users.DTO.InscriptionRequest;
 import com.example.users.entities.Inscription;
-import com.example.users.entities.StatusInscri;
+import com.example.users.enums.StatusInscri;
 import com.example.users.services.InscriptionServices;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,25 +21,34 @@ public class InscriptionController {
 
     private final InscriptionServices inscriptionServices;
 
-//    @PostMapping( "/add")
-//    public ResponseEntity<Inscription> createInscription(
-//           @RequestBody Inscription inscription
-//    ) throws IOException {
-//        Inscription savedInscription = inscriptionServices.add(inscription);
-//        return ResponseEntity.ok(savedInscription);
-//    }
-
     @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Inscription> createInscription(
-            @RequestPart("file") MultipartFile file,
-            @RequestPart("inscription") String inscriptionJson
-    ) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Inscription inscription = objectMapper.readValue(inscriptionJson, Inscription.class);
+            @ModelAttribute InscriptionRequest request
+            ) throws IOException {
+
+        if (request.getDiplomaDocument() == null || request.getDiplomaDocument().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Diploma document is required");
+        }
+
+        Inscription inscription = new Inscription();
+        inscription.setFirstName(request.getFirstName());
+        inscription.setLastName(request.getLastName());
+        inscription.setPersonalEmail(request.getPersonalEmail());
+        inscription.setPhoneNumber(request.getPhoneNumber());
+        inscription.setDateOfBirth(request.getDateOfBirth());
+        inscription.setMaritalStatus(request.getMaritalStatus());
+        inscription.setHealthStatus(request.getHealthStatus());
+        inscription.setAddress(request.getAddress());
+        inscription.setCity(request.getCity());
+        inscription.setZipCode(request.getZipCode());
+        inscription.setCourseId(request.getCourseId());
+        inscription.setStatus(StatusInscri.Pending);
+        inscription.setCreatedAt(new java.util.Date());
+
+        MultipartFile file = request.getDiplomaDocument();
         inscription.setDiplomaDocument(file.getBytes());
         inscription.setDiplomaDocumentType(file.getContentType());
         inscription.setDiplomaDocumentName(file.getOriginalFilename());
-
         Inscription savedInscription = inscriptionServices.add(inscription);
         return ResponseEntity.ok(savedInscription);
     }
@@ -47,6 +56,11 @@ public class InscriptionController {
     @GetMapping("/all")
     public List<Inscription> getAllInscriptions() {
         return inscriptionServices.getAllInscriptionsWithoutDocuments();
+    }
+
+    @GetMapping("/allWithDocuments")
+    public List<Inscription> getAllInscriptionsWithDocuments() {
+        return inscriptionServices.getAllInscriptions();
     }
 
     @GetMapping("/pending")
@@ -67,9 +81,22 @@ public class InscriptionController {
     @GetMapping("/{id}/document")
     public ResponseEntity<byte[]> getDocumentById(@PathVariable String id) {
         byte[] document = inscriptionServices.getDocumentById(id);
-        return ResponseEntity.ok()
-                .header("Content-Type", "application/pdf")
-                .header("Content-Disposition", "attachment; filename=document.pdf")
-                .body(document);
+        Inscription inscription = inscriptionServices.getInscriptionById(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(inscription.getDiplomaDocumentType()));
+        headers.setContentDisposition(
+                ContentDisposition.builder("inline").filename(inscription.getDiplomaDocumentName()).build()
+        );
+        return new ResponseEntity<>(document, headers, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/approve")
+    public ResponseEntity<String> approveInscription(@PathVariable String id) {
+        try {
+            inscriptionServices.approveInscription(id);
+            return ResponseEntity.ok("Inscription approved and user created successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

@@ -3,7 +3,7 @@ package com.example.users.services;
 import com.example.users.DTO.groq.GroqRequest;
 import com.example.users.DTO.groq.GroqResponse;
 import com.example.users.entities.Report;
-import com.example.users.entities.ReportStatus;
+import com.example.users.enums.ReportStatus;
 import com.example.users.repositories.ReportRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

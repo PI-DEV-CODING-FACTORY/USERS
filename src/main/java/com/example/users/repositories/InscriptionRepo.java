@@ -1,7 +1,7 @@
 package com.example.users.repositories;
 
 import com.example.users.entities.Inscription;
-import com.example.users.entities.StatusInscri;
+import com.example.users.enums.StatusInscri;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
