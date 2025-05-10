@@ -28,6 +28,16 @@ public class UsersController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/getNameById")
+    public String getNameById(@RequestParam String email){
+        User user = usersServices.findByEmail(email);
+        if (user != null) {
+            return user.getFirstname()+" "+user.getLastname();
+        } else {
+            return "User not found";
+        }
+    }
+
     @GetMapping("/findById")
     public User findByEmail(@RequestParam String email){
         return usersServices.findByEmail(email);

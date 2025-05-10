@@ -99,4 +99,13 @@ public class InscriptionController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PutMapping("/{id}/reject")
+    public ResponseEntity<String> rejectInscription(@PathVariable String id) {
+        try {
+            inscriptionServices.rejectInscription(id);
+            return ResponseEntity.ok("Inscription rejected successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

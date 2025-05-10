@@ -4,9 +4,7 @@ import com.example.users.entities.Admin;
 import com.example.users.services.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,13 +28,13 @@ public class AdminController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<Admin> createAdmin(Admin admin) {
         Admin savedAdmin = adminService.saveAdmin(admin);
         return ResponseEntity.ok(savedAdmin);
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteAdmin(String id) {
         adminService.deleteAdmin(id);
         return ResponseEntity.noContent().build();

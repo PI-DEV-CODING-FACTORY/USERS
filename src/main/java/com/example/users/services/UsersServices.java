@@ -23,8 +23,9 @@ public class UsersServices {
     private final PasswordEncoder passwordEncoder;
 
     public User add(User user){
-        String HashedPassword = passwordEncoder.encode( user.getPassword());
+        String HashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(HashedPassword);
+        user.setIsActive(true);
         user.setCreatedAt(new java.util.Date());
         return userRepo.save(user);
     }

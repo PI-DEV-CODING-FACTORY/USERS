@@ -2,9 +2,11 @@ package com.example.users.entities;
 
 import com.example.users.enums.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -20,7 +22,8 @@ public class Teacher extends User {
     private String subject;
     private String department;
     private Integer experienceYears;
-    private Date dateOfHire;
+    @JsonIgnore
+    private Date dateOfHire = new Date();
     private boolean responsibleDepartement = false;
 
     @Override

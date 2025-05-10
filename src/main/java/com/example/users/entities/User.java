@@ -33,6 +33,7 @@ public class User {
     @JsonIgnore
     Date CreatedAt;
     String profilePicture;
+    @JsonIgnore
     @Lob
     byte[] degree;
 
@@ -64,5 +65,10 @@ public class User {
                 ", CreatedAt=" + CreatedAt +
                 ", profilePicture='" + profilePicture + '\'' +
                 '}';
+    }
+
+    @Transient  // This won't be persisted in DB
+    public String getRoleWithPrefix() {
+        return "ROLE_" + role.name();
     }
 }

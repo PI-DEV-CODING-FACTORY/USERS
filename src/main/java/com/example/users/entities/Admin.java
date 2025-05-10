@@ -1,6 +1,7 @@
 package com.example.users.entities;
 
 import com.example.users.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,8 @@ public class Admin extends User{
     private String service;
     private String department;
     private Integer experienceYears;
-    @Temporal(TemporalType.DATE)
-    private Date dateOfHire;
+    @JsonIgnore
+    private Date dateOfHire = new Date();
     private boolean responsibleDepartement = false;
     private boolean fullAccess = false;
 
