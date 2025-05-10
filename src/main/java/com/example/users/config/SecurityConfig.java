@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/students/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()  // Allow login/signup
                         .requestMatchers("/api/public/**").permitAll()  // Public endpoints
+                        .requestMatchers("/company/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")  // Only ADMIN can access
                         .anyRequest().authenticated()  // All other requests need auth
                 )

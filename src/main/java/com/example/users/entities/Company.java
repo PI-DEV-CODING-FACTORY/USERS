@@ -16,19 +16,17 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "teachers")
-public class Teacher extends User {
-    private String numTeacher;
-    private String subject;
-    private String department;
-    private Integer experienceYears;
+@Table(name = "companies")
+public class Company extends User {
+    private String name;
+    private String description;
+    private String domain;
     @JsonIgnore
     private Date dateOfHire = new Date();
-    private boolean responsibleDepartement = false;
 
     @Override
     protected void onCreate() {
         super.onCreate();
-        setRole(Role.TEACHER);
+        setRole(Role.COMPANY);
     }
 }
