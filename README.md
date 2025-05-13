@@ -58,9 +58,11 @@ docker run -p 8083:8080 yassine10/users-service:v5
 ```
 
 ### Docker Compose
-You can also run this service along with other microservices using Docker Compose. Here's a sample configuration:
+You can also run this service along with other microservices using Docker Compose. Here's the configuration:
 
 ```yaml
+version: '3.8'
+
 services:
   users-service:
     image: yassine10/users-service:v5
@@ -70,11 +72,40 @@ services:
     networks:
       - app-network
 
+  coding-factory:
+    image: yassine10/courses_repo:latest
+    container_name: corses-service
+    ports:
+      - "8087:8087"
+    networks:
+      - app-network
+
+  pfe-service:
+    image: achrafsekri/pfe-service:latest
+    container_name: pfe-service
+    ports:
+      - "9001:8089"
+    networks:
+      - app-network
+
+  forum-service:
+    image: firaskraiem/forum:latest
+    container_name: forum
+    ports:
+      - "8088:8081"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
 ```
 
-The service will be available at `http://localhost:8083` after successful deployment.
+To run all services together:
+```bash
+docker-compose up
+```
+
+The users service will be available at `http://localhost:8083` after successful deployment.
 
 Note: Make sure you have Docker and Docker Compose installed on your system before running these commands.
